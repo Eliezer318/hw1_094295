@@ -43,6 +43,5 @@ def get_test_data(folder_path):
 os.makedirs('cache', exist_ok=True)
 all_features, ids = get_test_data(folder_path=sys.argv[1])
 clf: RandomForestClassifier = get_classifier(clf_path='cache/random_forest.pkl')
-answers = {'Id': ids.reshape(-1), 'SepsisLabel': clf.predict(all_features).astype(int).reshape(-1)}
 answers = {'Id': ids.reshape(-1), 'SepsisLabel': (clf.predict_proba(all_features)[:, 1] >= 0.47).astype(int).reshape(-1)}
 pd.DataFrame(answers)[['Id', 'SepsisLabel']].to_csv('prediction.csv', index=False)
